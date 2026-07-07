@@ -50,6 +50,7 @@ export default function Layout({ children, onLogout }: LayoutProps) {
   const navItems = [
     { name: 'لوحة التحكم', path: '/', icon: <LayoutDashboard size={20} /> },
     { name: 'إدارة المفاتيح', path: '/credentials', icon: <Key size={20} /> },
+    { name: 'قواعد البيانات', path: '/databases', icon: <Database size={20} /> },
     { name: 'الوكلاء الذكيون', path: '/ai-agents', icon: <Bot size={20} /> },
     { name: 'الخوادم', path: '/servers', icon: <Server size={20} /> },
     { name: 'الروابط', path: '/links', icon: <LinkIcon size={20} /> },

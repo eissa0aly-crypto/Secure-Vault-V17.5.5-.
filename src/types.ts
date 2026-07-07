@@ -5,6 +5,7 @@ export type CollectionName =
   | 'links'
   | 'huggingface'
   | 'free_servers'
+  | 'databases'
   | 'users'
   | 'activity_log'
   | 'settings'
@@ -128,3 +129,28 @@ export interface Settings {
   language: 'ar' | 'en';
   autoBackup: boolean;
 }
+
+export interface DBTable {
+  name: string;
+  recordsCount: number;
+  sizeMB: number;
+  description: string;
+}
+
+export interface CloudDatabase extends BaseEntity {
+  name: string;
+  provider: 'supabase' | 'firebase' | 'neon' | 'mongodb' | 'planetscale' | 'upstash' | 'cockroach' | 'other';
+  connectionString: string;
+  dbName: string;
+  username?: string;
+  password?: string;
+  maxStorageMB: number; // e.g. 500 for free Neon/Supabase, 512 for MongoDB Atlas
+  usedStorageMB: number;
+  tables: DBTable[];
+  status: 'active' | 'full' | 'offline';
+  notes: string;
+  isFavorite: boolean;
+  isPinned: boolean;
+  tags: string[];
+}
+

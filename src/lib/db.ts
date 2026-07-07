@@ -1,5 +1,5 @@
 import { CollectionName } from '../types';
-import { defaultFreeServers, defaultAIAgents, defaultServers, defaultLinks, defaultHuggingFace } from './defaultData';
+import { defaultFreeServers, defaultAIAgents, defaultServers, defaultLinks, defaultHuggingFace, defaultDatabases } from './defaultData';
 import { encryptText, decryptText } from './crypto';
 
 const PREFIX = 'vault_v17_5_5_';
@@ -67,10 +67,20 @@ export async function initDatabase() {
     }));
     localStorage.setItem(`${PREFIX}huggingface`, JSON.stringify(populated));
   }
+
+  if (!localStorage.getItem(`${PREFIX}databases`) || JSON.parse(localStorage.getItem(`${PREFIX}databases`) || '[]').length === 0) {
+    const populated = defaultDatabases.map(s => ({
+      ...s,
+      id: generateId(),
+      createdAt: getTimestamp(),
+      updatedAt: getTimestamp()
+    }));
+    localStorage.setItem(`${PREFIX}databases`, JSON.stringify(populated));
+  }
   
   const collections: CollectionName[] = [
     'credentials', 'users', 'activity_log', 'backups', 'webhooks', 
-    'test_history', 'categories', 'tags', 'favorites'
+    'test_history', 'categories', 'tags', 'favorites', 'databases'
   ];
   
   collections.forEach(col => {
@@ -180,6 +190,7 @@ export function getCollectionStats() {
     links: getCollection('links').length,
     freeServers: getCollection('free_servers').length,
     huggingFace: getCollection('huggingface').length,
+    databases: getCollection('databases').length,
   };
 }
 

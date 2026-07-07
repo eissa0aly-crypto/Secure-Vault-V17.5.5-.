@@ -1,4 +1,4 @@
-import { AIAgent, FreeServer, Server, Link, HuggingFaceResource, Credential } from "../types";
+import { AIAgent, FreeServer, Server, Link, HuggingFaceResource, Credential, CloudDatabase } from "../types";
 
 export const defaultFreeServers: Partial<FreeServer>[] = [
   { name: "Hugging Face Spaces", type: "ai_ml", description: "Host web applications and ML demos for free", signupUrl: "https://huggingface.co/join", docsUrl: "https://huggingface.co/docs", website: "https://huggingface.co/spaces", freeTierDetails: "Free CPU instances, 50GB ephemeral storage, public spaces", limits: { storage: "50GB", bandwidth: "Unlimited", requests: "Unlimited", builds: "Unlimited" }, status: "active", isFavorite: false, tags: ["ml", "python", "gradio", "streamlit"] },
@@ -82,3 +82,80 @@ export const defaultAIAgents: Partial<AIAgent>[] = [
   { name: "LangChain", provider: "LangChain", url: "https://langchain.com", modelName: "LLM orchestration", status: "active", isFavorite: false },
   { name: "LlamaIndex", provider: "LlamaIndex", url: "https://llamaindex.ai", modelName: "Data framework", status: "active", isFavorite: false }
 ];
+
+export const defaultDatabases: Partial<CloudDatabase>[] = [
+  {
+    name: "قاعدة بيانات المستخدمين الأساسية",
+    provider: "supabase",
+    connectionString: "postgresql://postgres:********@db.supabase.co:5432/postgres",
+    dbName: "prod-users-db",
+    username: "postgres",
+    maxStorageMB: 500,
+    usedStorageMB: 420, // 84% full
+    status: "active",
+    notes: "تحتوي على معلومات المستخدمين والتحقق والتوثيق والملفات الشخصية الأساسية.",
+    isFavorite: true,
+    isPinned: true,
+    tags: ["users", "postgres", "auth"],
+    tables: [
+      { name: "profiles", recordsCount: 12500, sizeMB: 180, description: "بيانات الملفات الشخصية للمستخدمين" },
+      { name: "user_roles", recordsCount: 240, sizeMB: 15, description: "أدوار وصلاحيات المستخدمين والمشرفين" },
+      { name: "auth_tokens", recordsCount: 45000, sizeMB: 225, description: "رموز الدخول النشطة والمنتهية للجلسات" }
+    ]
+  },
+  {
+    name: "سجلات النشاط والتقارير",
+    provider: "neon",
+    connectionString: "postgresql://neon_owner:********@ep-neon-12345.us-east-2.aws.neon.tech/neondb",
+    dbName: "telemetry-db",
+    username: "neon_owner",
+    maxStorageMB: 500,
+    usedStorageMB: 495, // 99% full - warning!
+    status: "full",
+    notes: "سجلات الأحداث المجمعة من عملاء الذكاء الاصطناعي ومستودعات الأكواد.",
+    isFavorite: false,
+    isPinned: false,
+    tags: ["logs", "postgres", "analytics"],
+    tables: [
+      { name: "api_requests_log", recordsCount: 240000, sizeMB: 380, description: "سجلات طلبات API والتفاصيل الفنية للمطورين" },
+      { name: "error_traces", recordsCount: 12000, sizeMB: 115, description: "الأخطاء البرمجية المسجلة وتفاصيل بيئات العمل" }
+    ]
+  },
+  {
+    name: "تطبيق المدونة والتعليقات",
+    provider: "mongodb",
+    connectionString: "mongodb+srv://admin:********@cluster0.mongodb.net/blog-app",
+    dbName: "blog-app",
+    username: "admin",
+    maxStorageMB: 512,
+    usedStorageMB: 120, // 23%
+    status: "active",
+    notes: "قاعدة بيانات NoSQL لتخزين المقالات والتعليقات والوسوم بشكل مرن.",
+    isFavorite: true,
+    isPinned: false,
+    tags: ["content", "nosql", "mongodb"],
+    tables: [
+      { name: "articles", recordsCount: 450, sizeMB: 35, description: "المقالات والمسودات ومحتوى التدوينات" },
+      { name: "comments", recordsCount: 8900, sizeMB: 75, description: "تعليقات الزوار والردود والتقييمات" },
+      { name: "tags", recordsCount: 35, sizeMB: 10, description: "تصنيفات ووسوم المقالات" }
+    ]
+  },
+  {
+    name: "مخزن الإعدادات المؤقتة",
+    provider: "upstash",
+    connectionString: "redis://default:********@us1-redis.upstash.io:32145",
+    dbName: "cache-store",
+    maxStorageMB: 256,
+    usedStorageMB: 12, // 4.6%
+    status: "active",
+    notes: "خادم Redis سحابي مجاني ومتاح لإدارة الجلسات السريعة وحفظ الكاش المؤقت.",
+    isFavorite: false,
+    isPinned: false,
+    tags: ["cache", "redis", "key-value"],
+    tables: [
+      { name: "session_cache", recordsCount: 150, sizeMB: 2, description: "بيانات جلسات التصفح السريعة" },
+      { name: "api_rate_limit", recordsCount: 1200, sizeMB: 10, description: "عدادات الحد من معدل استخدام واجهات البرمجة" }
+    ]
+  }
+];
+

@@ -11,7 +11,8 @@ export default function Dashboard() {
     servers: 0,
     links: 0,
     freeServers: 0,
-    huggingFace: 0
+    huggingFace: 0,
+    databases: 0
   });
   
   const [pieData, setPieData] = useState<{name: string, value: number}[]>([]);
@@ -58,11 +59,12 @@ export default function Dashboard() {
 
   const statCards = [
     { label: 'إجمالي المفاتيح', value: stats.credentials, icon: <Key size={24} />, color: 'var(--color-neon-blue)' },
+    { label: 'قواعد البيانات', value: stats.databases, icon: <Database size={24} />, color: 'var(--color-neon-cyan)' },
     { label: 'الوكلاء الذكيون', value: stats.aiAgents, icon: <Bot size={24} />, color: 'var(--color-neon-purple)' },
     { label: 'الخوادم', value: stats.servers, icon: <Server size={24} />, color: 'var(--color-neon-green)' },
     { label: 'الروابط', value: stats.links, icon: <Link size={24} />, color: 'var(--color-neon-pink)' },
     { label: 'هانجينج فيس', value: stats.huggingFace, icon: <Cpu size={24} />, color: 'var(--color-neon-orange)' },
-    { label: 'منصات الاستضافة المجانية', value: stats.freeServers, icon: <Database size={24} />, color: 'var(--color-neon-blue)' },
+    { label: 'الاستضافة المجانية', value: stats.freeServers, icon: <Database size={24} />, color: 'var(--color-neon-blue)' },
   ];
 
   const COLORS = ['#00FFFF', '#8B5CF6', '#39FF14', '#FF00FF', '#FF6600'];
@@ -77,7 +79,7 @@ export default function Dashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-4">
         {statCards.map((card, idx) => (
           <div key={idx} className="glass card-glow border border-[rgba(255,255,255,0.05)] rounded-xl p-4 flex flex-col light:bg-light-card light:border-gray-200">
             <div className="flex justify-between items-start mb-2">

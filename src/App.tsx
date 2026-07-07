@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Credentials from './pages/Credentials';
+import Databases from './pages/Databases';
 import FreeServers from './pages/FreeServers';
 import AIAgents from './pages/AIAgents';
 import Servers from './pages/Servers';
@@ -55,6 +56,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/credentials" element={<Credentials />} />
+          <Route path="/databases" element={<Databases />} />
           <Route path="/ai-agents" element={<AIAgents />} />
           <Route path="/free-servers" element={<FreeServers />} />
           <Route path="/servers" element={<Servers />} />
