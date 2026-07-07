@@ -1,0 +1,37 @@
+name: Sync to Hugging Face Spaces
+
+on:
+  push:
+    branches: ["**"]
+  # Allows manual triggering from the GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to Hugging Face Spaces
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          # Replace these placeholders with your actual Hugging Face Username and Space Name
+          HF_USERNAME: "eissa07"
+          HF_SPACE_NAME: "securevault"
+        run: |
+          if [ -z "$HF_TOKEN" ]; then
+            echo "Error: HF_TOKEN is not set in GitHub Secrets. Skipping sync."
+            exit 1
+          fi
+          
+          # Configure Git user info
+          git config --global user.email "deploy-action@github.com"
+          git config --global user.name "GitHub Deploy Action"
+          
+          # Add Hugging Face Space as a remote and force-push the main branch
+          git remote add hf https://$HF_USERNAME:$HF_TOKEN@huggingface.co/spaces/$HF_USERNAME/$HF_SPACE_NAME || true
+          git push --force hf HEAD:refs/heads/main

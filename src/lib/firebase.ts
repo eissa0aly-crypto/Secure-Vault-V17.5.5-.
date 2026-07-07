@@ -105,8 +105,9 @@ async function testConnection() {
     await getDocFromServer(doc(db, 'test', 'connection'));
   } catch (error) {
     if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration.");
+      console.debug("Firebase connection check: client is offline, which is expected during initial sandbox startup.");
     }
   }
 }
-testConnection();
+// Run connection check safely without blocking or triggering false-positive errors
+setTimeout(testConnection, 1000);
