@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Match blocks
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create, update: if isOwner(userId) 
+        && request.resource.data.uid == userId
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 256;
+      allow delete: if false; // Users cannot be deleted from client
+
+      // Credentials subcollection
+      match /credentials/{credentialId} {
+        allow list, get: if isOwner(userId);
+        allow create, update: if isOwner(userId) 
+          && isValidId(credentialId)
+          && request.resource.data.id == credentialId
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 256
+          && request.resource.data.token is string;
+        allow delete: if isOwner(userId);
+      }
+
+      // AI Agents subcollection
+      match /ai_agents/{agentId} {
+        allow list, get: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && isValidId(agentId)
+          && request.resource.data.id == agentId
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 256;
+        allow delete: if isOwner(userId);
+      }
+
+      // Servers subcollection
+      match /servers/{serverId} {
+        allow list, get: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && isValidId(serverId)
+          && request.resource.data.id == serverId
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 256;
+        allow delete: if isOwner(userId);
+      }
+
+      // Links subcollection
+      match /links/{linkId} {
+        allow list, get: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && isValidId(linkId)
+          && request.resource.data.id == linkId
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 256;
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

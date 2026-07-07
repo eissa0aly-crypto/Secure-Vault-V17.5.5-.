@@ -1,0 +1,37 @@
+      {showAddForm && (
+        <div className="glass card-glow border border-[var(--color-neon-blue)] rounded-xl p-5 mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="font-bold text-lg">إضافة مفتاح جديد</h3>
+            <button onClick={() => setShowAddForm(false)} className="text-gray-400 hover:text-white">
+              <X size={20} />
+            </button>
+          </div>
+          <form onSubmit={handleAdd} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">الاسم</label>
+                <input required type="text" value={newCred.name} onChange={e => setNewCred({...newCred, name: e.target.value})} className="w-full bg-dark-card border border-[rgba(255,255,255,0.1)] rounded-lg py-2 px-4 text-white focus:outline-none focus:border-[var(--color-neon-blue)]" />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">التصنيف</label>
+                <input required type="text" value={newCred.category} onChange={e => setNewCred({...newCred, category: e.target.value})} className="w-full bg-dark-card border border-[rgba(255,255,255,0.1)] rounded-lg py-2 px-4 text-white focus:outline-none focus:border-[var(--color-neon-blue)]" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-sm text-gray-400 mb-1">المفتاح / التوكين الأساسي</label>
+                <input required type="password" value={newCred.token} onChange={e => setNewCred({...newCred, token: e.target.value})} className="w-full bg-dark-card border border-[rgba(255,255,255,0.1)] rounded-lg py-2 px-4 text-white focus:outline-none focus:border-[var(--color-neon-blue)] text-left" dir="ltr" />
+              </div>
+            </div>
+            
+            <CustomFieldsEditor 
+              customFields={newCred.customFields} 
+              onChange={(fields) => setNewCred({...newCred, customFields: fields})} 
+            />
+
+            <div className="flex justify-end pt-2 border-t border-[rgba(255,255,255,0.1)] mt-4">
+              <button type="submit" className="bg-[var(--color-neon-blue)] text-black px-6 py-2 rounded-lg font-bold hover:bg-cyan-400 transition-colors">
+                حفظ المفتاح
+              </button>
+            </div>
+          </form>
+        </div>
+      )}

@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans Arabic", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-neon-cyan: #00FFFF;
+  --color-neon-blue: #00FFFF;
+  --color-neon-pink: #FF00FF;
+  --color-neon-green: #39FF14;
+  --color-neon-purple: #8B5CF6;
+  --color-neon-orange: #FF6600;
+  --color-neon-red: #FF0044;
+  
+  --color-dark-bg: #050510;
+  --color-dark-card: rgba(15, 15, 35, 0.8);
+  --color-light-bg: #F0F4FF;
+  --color-light-card: rgba(255, 255, 255, 0.95);
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-dark-bg text-white transition-colors duration-300;
+    direction: rtl;
+  }
+  
+  .light body {
+    @apply bg-light-bg text-[#0A0A1A];
+    background-image: none;
+  }
+}
+
+.grid-bg {
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px), 
+    linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.glass {
+  background: rgba(15, 15, 35, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.neon-border {
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.light .neon-border {
+  box-shadow: 0 0 15px rgba(0, 85, 255, 0.2), inset 0 0 10px rgba(0, 85, 255, 0.05);
+  border: 1px solid rgba(0, 85, 255, 0.3);
+}
+
+.card-glow {
+  transition: all 0.3s ease;
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+  border-color: rgba(0, 255, 255, 0.6);
+}
+
+.neon-text-cyan, .neon-text-blue {
+  color: #00FFFF;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.light .neon-text-cyan, .light .neon-text-blue {
+  text-shadow: 0 0 10px rgba(0, 85, 255, 0.4);
+}
+
+.neon-text-pink {
+  color: #FF00FF;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
+
+.neon-bg-cyan {
+  background: linear-gradient(135deg, #00FFFF, #008080);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-neon-blue);
+  border-radius: 4px;
+}
+.light ::-webkit-scrollbar-thumb {
+  background: #0055FF;
+}
+
+/* Toast animations */
+@keyframes slideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.toast-enter {
+  animation: slideIn 0.3s ease-out forwards;
+}
+

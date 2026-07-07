@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "App user document",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Credential": {
+      "title": "Credential",
+      "description": "User credentials, API keys, and accounts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "token": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "subcategory": { "type": "string" },
+        "expiryDate": { "type": "string" },
+        "isFavorite": { "type": "boolean" },
+        "isPinned": { "type": "boolean" },
+        "status": { "type": "string" },
+        "tags": { "type": "array" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "token"]
+    },
+    "AIAgent": {
+      "title": "AIAgent",
+      "description": "User AI Agents",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "provider": { "type": "string" },
+        "url": { "type": "string" },
+        "modelName": { "type": "string" },
+        "apiKey": { "type": "string" },
+        "status": { "type": "string" },
+        "isFavorite": { "type": "boolean" }
+      },
+      "required": ["id", "name", "provider"]
+    },
+    "Server": {
+      "title": "Server",
+      "description": "User Servers and VPS info",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "provider": { "type": "string" },
+        "ipAddress": { "type": "string" },
+        "port": { "type": "number" },
+        "username": { "type": "string" },
+        "status": { "type": "string" }
+      },
+      "required": ["id", "name", "ipAddress", "username"]
+    },
+    "Link": {
+      "title": "Link",
+      "description": "User saved links and resources",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "url": { "type": "string" },
+        "category": { "type": "string" },
+        "isFavorite": { "type": "boolean" }
+      },
+      "required": ["id", "name", "url"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile collection"
+    },
+    "/users/{userId}/credentials/{credentialId}": {
+      "schema": "Credential",
+      "description": "Credentials owned by specific user"
+    },
+    "/users/{userId}/ai_agents/{agentId}": {
+      "schema": "AIAgent",
+      "description": "AI agents owned by specific user"
+    },
+    "/users/{userId}/servers/{serverId}": {
+      "schema": "Server",
+      "description": "Servers owned by specific user"
+    },
+    "/users/{userId}/links/{linkId}": {
+      "schema": "Link",
+      "description": "Links owned by specific user"
+    }
+  }
+}

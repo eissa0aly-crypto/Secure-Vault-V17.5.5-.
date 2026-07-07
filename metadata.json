@@ -1,0 +1,6 @@
+{
+  "name": "Secure Vault",
+  "description": "A highly secure developer vault to organize, encrypt, and manage credentials, AI agents, servers, hosting, and Google Workspace integrations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
