@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getCollection, addItem } from "../lib/db";
 import { decryptText, encryptText } from "../lib/crypto";
 import { Credential } from "../types";
-import { Search, Plus, Key, Copy, Check, Eye, EyeOff, X } from "lucide-react";
+import { Search, Plus, Key, Copy, Check, Eye, EyeOff, X, QrCode } from "lucide-react";
 import CustomFieldsEditor from "../components/CustomFieldsEditor";
+import QRCodeModal from "../components/QRCodeModal";
 
 export default function Credentials() {
   const [credentials, setCredentials] = useState<Credential[]>([]);
@@ -22,9 +23,30 @@ export default function Credentials() {
     customFields: [] as { key: string; value: string }[],
   });
 
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [qrModalData, setQrModalData] = useState({ text: "", title: "", category: "" });
+
   useEffect(() => {
     setCredentials(getCollection<Credential>("credentials"));
   }, []);
+
+  const handleShowQR = async (cred: Credential) => {
+    let token = cred.token;
+    if (token.startsWith("AES-") || token.length > 30) {
+      if (!decryptedTokens[cred.id]) {
+        token = await decryptText(cred.token);
+        setDecryptedTokens((prev) => ({ ...prev, [cred.id]: token }));
+      } else {
+        token = decryptedTokens[cred.id];
+      }
+    }
+    setQrModalData({
+      text: token,
+      title: cred.name,
+      category: cred.category || "عام"
+    });
+    setQrModalOpen(true);
+  };
 
   const handleCopy = async (cred: Credential) => {
     let token = cred.token;
@@ -253,6 +275,13 @@ export default function Credentials() {
                     <td className="py-3 px-4">
                       <div className="flex gap-2 justify-end">
                         <button
+                          onClick={() => handleShowQR(cred)}
+                          className="p-1.5 text-gray-400 hover:text-white bg-[rgba(255,255,255,0.05)] rounded transition-colors"
+                          title="عرض رمز QR"
+                        >
+                          <QrCode size={16} />
+                        </button>
+                        <button
                           onClick={() => handleReveal(cred)}
                           className="p-1.5 text-gray-400 hover:text-white bg-[rgba(255,255,255,0.05)] rounded transition-colors"
                           title="إظهار/إخفاء"
@@ -283,6 +312,14 @@ export default function Credentials() {
           </table>
         </div>
       </div>
+
+      <QRCodeModal
+        isOpen={qrModalOpen}
+        onClose={() => setQrModalOpen(false)}
+        text={qrModalData.text}
+        title={qrModalData.title}
+        category={qrModalData.category}
+      />
     </div>
   );
 }
